@@ -1,21 +1,37 @@
-package mephi.lab2;
+package lab.Readers;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.tree.DefaultMutableTreeNode;
+
+import lab.DataStorage;
+import lab.ListConstructor;
+import lab.Reactor;
+import org.apache.commons.io.FilenameUtils;
 import org.yaml.snakeyaml.Yaml;
 
-public class YAMLReader implements FileReader{
+public class YAMLReader extends FileReader{
     private DataStorage ds;
     private Reactor reactor;
-    
     public YAMLReader() {
         this.ds = new DataStorage();
     }
     public DataStorage getDs() {
         return ds;
+    }
+
+    @Override
+    public FileReader createAndRead(String filename) {
+        if(FilenameUtils.getExtension(filename).equals("yaml")){
+            YAMLReader yamlReader = new YAMLReader();
+            yamlReader.readFile(filename);
+            return yamlReader;
+        } else if (next != null){
+            return next.createAndRead(filename);
+        }
+        return null;
     }
 
     @Override

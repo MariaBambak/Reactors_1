@@ -1,17 +1,33 @@
-package mephi.lab2;
+package lab.Readers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lab.DataStorage;
+import lab.Reactor;
+import org.apache.commons.io.FilenameUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-public class JSONReader implements FileReader{
+public class JSONReader extends FileReader{
     private DataStorage ds;
     private Reactor reactor;
-    
+
+    @Override
+    public FileReader createAndRead(String filename) {
+        if(FilenameUtils.getExtension(filename).equals("json")){
+            JSONReader jsonReader = new JSONReader();
+            jsonReader.readFile(filename);
+            return jsonReader;
+        } else if (next != null){
+            return next.createAndRead(filename);
+        }
+        return null;
+    }
+
     public JSONReader() {
         this.ds = new DataStorage();
     }

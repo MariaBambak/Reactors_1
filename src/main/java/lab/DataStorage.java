@@ -1,11 +1,10 @@
-package mephi.lab2;
+package lab;
 
 import java.util.ArrayList;
 
 public class DataStorage {
     private String source;
     private ArrayList<Reactor> reactors = new ArrayList<Reactor>();
-
     public String getSource() {
         return source;
     }

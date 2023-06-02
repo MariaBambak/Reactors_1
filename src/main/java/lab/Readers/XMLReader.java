@@ -1,4 +1,8 @@
-package mephi.lab2;
+package lab.Readers;
+
+import lab.DataStorage;
+import lab.Reactor;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -10,16 +14,31 @@ import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
-public class XMLReader implements FileReader{
+public class XMLReader extends FileReader{
     private DataStorage ds;
     private Reactor reactor;
-    
+
+
+
     public XMLReader() {
         this.ds = new DataStorage();
     }
     public DataStorage getDs() {
         return ds;
     }
+
+    @Override
+    public FileReader createAndRead(String filename) {
+        if(FilenameUtils.getExtension(filename).equals("xml")){
+            XMLReader xmlReader = new XMLReader();
+            xmlReader.readFile(filename);
+            return xmlReader;
+        } else if (next != null){
+            return next.createAndRead(filename);
+        }
+        return null;
+    }
+
     @Override
     public void readFile(String path) {
         ds.setSource("xml");

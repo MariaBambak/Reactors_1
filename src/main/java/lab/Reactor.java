@@ -1,4 +1,4 @@
-package mephi.lab2;
+package lab;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;
