@@ -212,7 +212,11 @@ public class JFrame extends javax.swing.JFrame {
     //кнопка создания таблиц и заполнения таблицы units и др
     private void CreateButtonActionPerformed(java.awt.event.ActionEvent evt) throws IOException, InvalidFormatException, SQLException {//GEN-FIRST:event_CreateButtonActionPerformed
         try{
-            XSSFWorkbook workbook = Excel.getBook("C://Users//masha//Downloads//Telegram Desktop//ReactorData.xlsx");
+            JFileChooser jFileChooser = new JFileChooser();
+            jFileChooser.setCurrentDirectory(new File("D:\\Java programs\\lab_2"));
+            int response = jFileChooser.showDialog(jPanel, "Select");
+            String filename = jFileChooser.getSelectedFile().getAbsolutePath();
+            XSSFWorkbook workbook = Excel.getBook(filename);
             DBManipulator.fillDB(con, workbook);
             jOptionPane.setMessage("Tables were created");
             jOptionPane.createDialog("Success").setVisible(true);
@@ -320,7 +324,7 @@ public class JFrame extends javax.swing.JFrame {
         return xmlReader;
     }
 
-    public static void main(String args[]) {
+    public static void run() {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -367,5 +371,5 @@ public class JFrame extends javax.swing.JFrame {
     private JPanel jPanel;
     private JTextField jTextField;
 
-    public Connection con = ConnectionBuilder.getConection();
+    public Connection con = ConnectionBuilder.getConnection();
 }
