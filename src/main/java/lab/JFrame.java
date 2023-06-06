@@ -57,7 +57,11 @@ public class JFrame extends javax.swing.JFrame {
         FilesButton.setText("Выбрать файлы");
         FilesButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FilesButtonActionPerformed(evt);
+                try {
+                    FilesButtonActionPerformed(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -191,7 +195,7 @@ public class JFrame extends javax.swing.JFrame {
         pack();
     }
     List<Reactor> reactors;
-    private void FilesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FilesButtonActionPerformed
+    private void FilesButtonActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {//GEN-FIRST:event_FilesButtonActionPerformed
         JFileChooser jFileChooser = new JFileChooser();
         jFileChooser.setCurrentDirectory(new File("D:\\Java programs\\lab_2"));
         int response = jFileChooser.showDialog(jPanel, "Select");
@@ -203,6 +207,7 @@ public class JFrame extends javax.swing.JFrame {
                 jOptionPane.setMessage("Wrong extension. Please choose another file");
                 jOptionPane.createDialog("Error").setVisible(true);
             }
+            DBManipulator.updateParamets(con,filename);
             jTextField.setText(filer.getDs().getSource());
             jTextField.setVisible(true);
             jTree.setModel(new DefaultTreeModel(filer.buildTree()));
@@ -314,7 +319,7 @@ public class JFrame extends javax.swing.JFrame {
         jTree.setModel(new DefaultTreeModel(head));
     }
 
-    private static XMLReader getXmlReader() {
+    public static XMLReader getXmlReader() {
         XMLReader xmlReader = new XMLReader();
         JSONReader jsonReader = new JSONReader();
         YAMLReader yamlReader = new YAMLReader();
@@ -324,7 +329,7 @@ public class JFrame extends javax.swing.JFrame {
         return xmlReader;
     }
 
-    public static void run() {
+    public static void main(String[] args) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {

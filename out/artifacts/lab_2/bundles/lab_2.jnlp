@@ -36,7 +36,7 @@
     <jar href="jersey-hk2-2.35.jar" size="78379" download="eager" />
     <jar href="jersey-media-moxy-2.28.jar" size="38157" download="eager" />
     <jar href="junit-4.13.2.jar" size="384581" download="eager" />
-    <jar href="lab_2.jar" size="48758" download="eager" />
+    <jar href="lab_2.jar" size="48829" download="eager" />
     <jar href="log4j-api-2.18.0.jar" size="315115" download="eager" />
     <jar href="log4j-core-2.18.0.jar" size="1861441" download="eager" />
     <jar href="org.eclipse.persistence.asm-2.7.4.jar" size="508314" download="eager" />

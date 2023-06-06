@@ -1,7 +1,9 @@
 package lab.dao;
 
 import lab.Reactor;
+import lab.Readers.FileReader;
 import lab.Readers.JSONReader;
+import lab.Readers.XMLReader;
 import lab.domain.*;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -9,6 +11,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+
+import static lab.JFrame.getXmlReader;
 
 public class DBManipulator {
 
@@ -173,7 +177,7 @@ public class DBManipulator {
         fillSites(con, sites);
         fillUnits(con, units);
         setUpdateClasses(con);
-        updateParamets(con, "D://JavaProjects//lab//src//main//resources//ReactorType.json");
+//        updateParamets(con, "D://JavaProjects//lab//src//main//resources//ReactorType.json");
     }
 
     public static void createDB(Connection con){
@@ -290,10 +294,13 @@ public class DBManipulator {
             throw new RuntimeException(e);
         }
     }
-    private static void updateParamets(Connection con, String filePath) throws SQLException {
-        JSONReader jsonReader = new JSONReader();
-        jsonReader.readFile(filePath);
-        ArrayList<Reactor> reactors = jsonReader.getDs().getReactors();
+    public static void updateParamets(Connection con, String filePath) throws SQLException {
+        XMLReader xmlReader = getXmlReader(); // create start reader and set chain for readers
+        FileReader filer = xmlReader.createAndRead(filePath);
+        ArrayList<Reactor> reactors = filer.getDs().getReactors();
+//        JSONReader jsonReader = new JSONReader();
+//        jsonReader.readFile(filePath);
+//        ArrayList<Reactor> reactors = jsonReader.getDs().getReactors();
         for(Reactor reactor: reactors){
             try (PreparedStatement stmt = con.prepareStatement(SET_BURNUP_AND_FISTLOAD)) {
                 stmt.setDouble(1, reactor.getBurnup());
